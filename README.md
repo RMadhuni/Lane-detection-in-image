@@ -30,25 +30,26 @@ import matplotlib.image as mpimg
 import numpy as np
 import cv2
 %matplotlib inline
-
-
+```
 
 **2. Reading the Image**
-
+```python
 image = mpimg.imread('/content/solidWhiteCurve.jpg')
 print('This image is:', type(image), 'with dimensions:', image.shape)
 plt.imshow(image)
+```
 
 **3. Mounting Google Drive (if using Colab)**
-
+```python
 from google.colab import drive
 drive.mount('/content/drive')
 image = mpimg.imread('/content/drive/MyDrive/3(1).jpg')
 print('This image is:', type(image), 'with dimensions:', image.shape)
 plt.imshow(image)
+```
 
 **4. Defining the Region of Interest (ROI)**
-
+```python
 vertices = np.array([[(0, image.shape[0]), (450, 290), (490, 290), (image.shape[1], image.shape[0])]], dtype=np.int32)
 def region_of_interest(img, vertices):
     mask = np.zeros_like(img)
@@ -57,15 +58,16 @@ def region_of_interest(img, vertices):
     return cv2.bitwise_and(img, mask)
 masked_image = region_of_interest(image, vertices)
 plt.imshow(masked_image)
+```
 
 **5. Edge Detection using Canny Filter**
-
+```python
 gray_image = cv2.cvtColor(masked_image, cv2.COLOR_RGB2GRAY)
 cannyed_image = cv2.Canny(gray_image, 100, 200)
 plt.imshow(cannyed_image)
-
+```
 **6. Detecting Lines using Hough Transform**
-
+```python
 lines = cv2.HoughLinesP(
     cannyed_image,
     rho=6,
@@ -88,17 +90,17 @@ def draw_lines(img, lines, color=[255, 0, 0], thickness=3):
 
 line_image = draw_lines(cannyed_image, lines)
 plt.imshow(line_image)
-
+```
 **7. Creating a Ground Truth Mask**
-
+```python
 ground_truth_mask = np.zeros_like(cannyed_image)
 cv2.line(ground_truth_mask, (450, 290), (490, 290), 255, 5)
 cv2.line(ground_truth_mask, (0, image.shape[0]), (450, 290), 255, 5)
 cv2.line(ground_truth_mask, (490, 290), (image.shape[1], image.shape[0]), 255, 5)
 plt.imshow(ground_truth_mask, cmap='gray')
-
+```
 **8. Computing Accuracy Metrics**
-
+```python
 def compute_accuracy(detected_mask, ground_truth_mask):
     TP = np.sum((detected_mask == 255) & (ground_truth_mask == 255))
     TN = np.sum((detected_mask == 0) & (ground_truth_mask == 0))
@@ -112,7 +114,7 @@ def compute_accuracy(detected_mask, ground_truth_mask):
 
 accuracy, precision, recall, f1_score = compute_accuracy(cannyed_image, ground_truth_mask)
 print(f'Accuracy: {accuracy:.2f}, Precision: {precision:.2f}, Recall: {recall:.2f}, F1-Score: {f1_score:.2f}')
-
+```
 **Output**
 
 The processed image displays detected lanes with overlaid lines and calculated accuracy metrics.
