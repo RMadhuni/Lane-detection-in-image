@@ -11,8 +11,11 @@ This project implements a basic lane detection pipeline using image processing t
 Before running the code, ensure you have the following dependencies installed:
 
 •	Python 3.x
+
 •	OpenCV (cv2)
+
 •	NumPy (numpy)
+
 •	Matplotlib (matplotlib)
 
 You can install the required libraries using:
@@ -21,11 +24,14 @@ Steps in the Lane Detection Pipeline
 
 **1. Importing Required Libraries**
 
+```python
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import numpy as np
 import cv2
 %matplotlib inline
+
+
 
 **2. Reading the Image**
 
