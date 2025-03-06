@@ -133,12 +133,3 @@ This project demonstrates:
 
 •	Computing accuracy metrics against a manually defined ground truth
 
-
-**License**
-
-This project is open-source and can be used freely with attribution.
-
-**Author**
-
-R.Madhuni
-
